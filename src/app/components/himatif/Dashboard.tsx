@@ -1,6 +1,4 @@
-import { Calendar, Users, Wallet, ClipboardList, TrendingUp, Award } from 'lucide-react';
-import { Card } from '@/app/components/ui/card';
-import { Badge } from '@/app/components/ui/badge';
+import { Calendar, Users, Wallet, ClipboardList, TrendingUp, Award, ArrowRight, Megaphone, Zap } from 'lucide-react';
 import { UserRole } from '@/types';
 import { mockActivities, mockMembers, mockTransactions, mockJobdesks } from '@/data/mockData';
 
@@ -61,150 +59,150 @@ export function Dashboard({ userRole, userName }: DashboardProps) {
 
   const recentActivities = mockActivities.slice(0, 3);
   const recentAnnouncements = [
-    { title: 'Rapat Koordinasi Pengurus', date: '2 hari lalu', priority: 'high' },
-    { title: 'Pendaftaran Seminar Teknologi', date: '3 hari lalu', priority: 'medium' },
-    { title: 'Laporan Keuangan Januari', date: '1 minggu lalu', priority: 'low' },
+    { title: 'Rapat Koordinasi Pengurus HIMATIF', date: '2 jam lalu', priority: 'high', tag: 'Wajib' },
+    { title: 'Pendaftaran Seminar Teknologi AI', date: '1 hari lalu', priority: 'medium', tag: 'Kegiatan' },
+    { title: 'Laporan Keuangan Bulan Mei 2024', date: '3 hari lalu', priority: 'low', tag: 'Keuangan' },
   ];
 
+  const STATUS_CFG: Record<string, {label:string; color:string; bg:string}> = {
+    selesai: { label:'Selesai', color:'#34D399', bg:'rgba(52,211,153,0.12)' },
+    pelaksanaan: { label:'Berlangsung', color:'#60A5FA', bg:'rgba(96,165,250,0.12)' },
+    perencanaan: { label:'Perencanaan', color:'#FBC02D', bg:'rgba(251,192,45,0.12)' },
+  };
+
+  const QUICK_LINKS: Record<string, Array<{icon: any; label:string; color:string}>> = {
+    admin: [
+      { icon: Award, label: 'Buat Kegiatan', color: '#1565C0' },
+      { icon: Users, label: 'Kelola Anggota', color: '#7C3AED' },
+      { icon: Megaphone, label: 'Buat Pengumuman', color: '#059669' },
+      { icon: Zap, label: 'Sprint Board', color: '#D97706' },
+    ],
+    bendahara: [
+      { icon: Wallet, label: 'Input Transaksi', color: '#1565C0' },
+      { icon: TrendingUp, label: 'Laporan Keuangan', color: '#059669' },
+    ],
+    ketua_divisi: [
+      { icon: ClipboardList, label: 'Tambah Jobdesk', color: '#1565C0' },
+      { icon: Zap, label: 'Sprint Board', color: '#D97706' },
+    ],
+  };
+
+  const quickLinks = QUICK_LINKS[userRole] || [];
+
   return (
-    <div className="pb-20 bg-[#F4F6F8]">
-      {/* Hero Section */}
-      <div className="relative h-44 bg-gradient-to-br from-[#0A1D37] via-[#1565C0] to-[#0A1D37] mx-4 mt-4 rounded-2xl overflow-hidden">
-        <div className="absolute inset-0 bg-black/10"></div>
-        <div className="relative h-full flex flex-col justify-end p-6 text-white">
-          <h2 className="text-2xl font-bold mb-1">{getGreeting()}! 👋</h2>
-          <p className="opacity-90">{userName}</p>
-          <p className="text-sm opacity-75 mt-1">Selamat beraktivitas di HIMATIF UIR</p>
+    <div className="pb-24" style={{ minHeight: '100vh', background: '#060E1C' }}>
+
+      {/* Hero Banner */}
+      <div className="mx-4 mt-4 rounded-2xl overflow-hidden relative" style={{ background: 'linear-gradient(135deg, #0A1D37 0%, #1565C0 60%, #0D47A1 100%)', minHeight: '140px' }}>
+        <div className="absolute inset-0 opacity-10" style={{ background: 'radial-gradient(circle at 80% 50%, #FBC02D, transparent 60%)' }} />
+        <div className="relative p-5 pt-6">
+          <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px', marginBottom: '4px' }}>{getGreeting()},</p>
+          <h2 className="font-bold text-white" style={{ fontSize: '20px', lineHeight: 1.3 }}>{userName}</h2>
+          <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '11px', marginTop: '4px' }}>Selamat beraktivitas di HIMATIF UIR 🎓</p>
+          <div className="mt-4 flex items-center gap-2">
+            <div style={{ background: 'rgba(251,192,45,0.2)', border: '1px solid rgba(251,192,45,0.35)', borderRadius: '8px', padding: '4px 10px' }}>
+              <span style={{ color: '#FBC02D', fontSize: '11px', fontWeight: 600 }}>Sprint 3 Aktif</span>
+            </div>
+            <div style={{ background: 'rgba(52,211,153,0.15)', border: '1px solid rgba(52,211,153,0.3)', borderRadius: '8px', padding: '4px 10px' }}>
+              <span style={{ color: '#34D399', fontSize: '11px', fontWeight: 600 }}>{upcomingActivities} Kegiatan</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-2 gap-3 px-4 mt-6">
-        {visibleStats.map((stat, index) => {
+      {/* Stats */}
+      <div className="grid grid-cols-2 gap-3 px-4 mt-5">
+        {visibleStats.map((stat, i) => {
           const Icon = stat.icon;
+          const colors = ['#1565C0','#7C3AED','#059669','#D97706'];
+          const c = colors[i % colors.length];
           return (
-            <Card key={index} className="p-4 border-0 shadow-sm bg-white">
-              <div className={`w-10 h-10 rounded-lg ${stat.color} flex items-center justify-center mb-3`}>
-                <Icon className="w-5 h-5" />
+            <div key={i} className="rounded-2xl p-4" style={{ background: '#0D1B2E', border: '1px solid rgba(255,255,255,0.07)' }}>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style={{ background: `${c}20` }}>
+                <Icon size={20} style={{ color: c }} />
               </div>
-              <p className="text-2xl font-bold text-[#0A1D37] mb-1">{stat.value}</p>
-              <p className="text-xs text-gray-600">{stat.label}</p>
-            </Card>
+              <p className="font-bold text-white" style={{ fontSize: '22px', lineHeight: 1.1 }}>{stat.value}</p>
+              <p style={{ color: '#8899AA', fontSize: '11px', marginTop: '2px' }}>{stat.label}</p>
+            </div>
           );
         })}
       </div>
 
-      {/* Recent Activities */}
-      <div className="mt-8 px-4">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold text-[#0A1D37]">Kegiatan Terbaru</h3>
-          <button className="text-sm text-[#1565C0] font-medium">Lihat Semua</button>
-        </div>
-        
-        <div className="space-y-3">
-          {recentActivities.map((activity) => (
-            <Card key={activity.id} className="p-4 border-0 shadow-sm bg-white">
-              <div className="flex items-start gap-3">
-                <div className="w-12 h-12 rounded-lg bg-[#1565C0]/10 flex items-center justify-center flex-shrink-0">
-                  <Calendar className="w-6 h-6 text-[#1565C0]" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-2 mb-1">
-                    <h4 className="font-semibold text-[#0A1D37] text-sm line-clamp-1">
-                      {activity.title}
-                    </h4>
-                    <Badge 
-                      variant="secondary" 
-                      className={`text-xs flex-shrink-0 ${
-                        activity.status === 'selesai' ? 'bg-green-100 text-green-700' :
-                        activity.status === 'pelaksanaan' ? 'bg-blue-100 text-blue-700' :
-                        'bg-yellow-100 text-yellow-700'
-                      }`}
-                    >
-                      {activity.status === 'selesai' ? 'Selesai' :
-                       activity.status === 'pelaksanaan' ? 'Berlangsung' :
-                       'Perencanaan'}
-                    </Badge>
-                  </div>
-                  <p className="text-xs text-gray-600">{activity.date} • {activity.time}</p>
-                  <p className="text-xs text-gray-500 mt-1">📍 {activity.location}</p>
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
-      </div>
-
-      {/* Quick Access - Conditional based on role */}
-      {(userRole === 'admin' || userRole === 'bendahara' || userRole === 'ketua_divisi') && (
-        <div className="mt-8 px-4">
-          <h3 className="font-semibold text-[#0A1D37] mb-4">Akses Cepat</h3>
+      {/* Quick Links */}
+      {quickLinks.length > 0 && (
+        <div className="mt-6 px-4">
+          <p className="font-semibold mb-3" style={{ color: '#E8EDF5', fontSize: '14px' }}>Akses Cepat</p>
           <div className="grid grid-cols-2 gap-3">
-            {userRole === 'admin' && (
-              <>
-                <button className="bg-white p-4 rounded-xl border border-gray-200 hover:border-[#1565C0] transition-colors">
-                  <Award className="w-8 h-8 text-[#1565C0] mb-2" />
-                  <p className="text-sm font-medium text-[#0A1D37]">Tambah Kegiatan</p>
+            {quickLinks.map((ql, i) => {
+              const Icon = ql.icon;
+              return (
+                <button key={i} className="rounded-2xl p-4 text-left transition-all active:scale-95"
+                  style={{ background: '#0D1B2E', border: '1px solid rgba(255,255,255,0.07)', cursor: 'pointer', fontFamily: 'Poppins, sans-serif' }}>
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style={{ background: `${ql.color}20` }}>
+                    <Icon size={20} style={{ color: ql.color }} />
+                  </div>
+                  <p style={{ color: '#E8EDF5', fontSize: '12px', fontWeight: 600 }}>{ql.label}</p>
                 </button>
-                <button className="bg-white p-4 rounded-xl border border-gray-200 hover:border-[#1565C0] transition-colors">
-                  <Users className="w-8 h-8 text-[#1565C0] mb-2" />
-                  <p className="text-sm font-medium text-[#0A1D37]">Kelola Anggota</p>
-                </button>
-              </>
-            )}
-            {userRole === 'bendahara' && (
-              <>
-                <button className="bg-white p-4 rounded-xl border border-gray-200 hover:border-[#1565C0] transition-colors">
-                  <Wallet className="w-8 h-8 text-[#1565C0] mb-2" />
-                  <p className="text-sm font-medium text-[#0A1D37]">Input Transaksi</p>
-                </button>
-                <button className="bg-white p-4 rounded-xl border border-gray-200 hover:border-[#1565C0] transition-colors">
-                  <TrendingUp className="w-8 h-8 text-[#1565C0] mb-2" />
-                  <p className="text-sm font-medium text-[#0A1D37]">Laporan Keuangan</p>
-                </button>
-              </>
-            )}
-            {userRole === 'ketua_divisi' && (
-              <>
-                <button className="bg-white p-4 rounded-xl border border-gray-200 hover:border-[#1565C0] transition-colors">
-                  <ClipboardList className="w-8 h-8 text-[#1565C0] mb-2" />
-                  <p className="text-sm font-medium text-[#0A1D37]">Tambah Jobdesk</p>
-                </button>
-                <button className="bg-white p-4 rounded-xl border border-gray-200 hover:border-[#1565C0] transition-colors">
-                  <Users className="w-8 h-8 text-[#1565C0] mb-2" />
-                  <p className="text-sm font-medium text-[#0A1D37]">Anggota Divisi</p>
-                </button>
-              </>
-            )}
+              );
+            })}
           </div>
         </div>
       )}
 
-      {/* Announcements Preview */}
-      <div className="mt-8 px-4">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold text-[#0A1D37]">Pengumuman Terbaru</h3>
-          <button className="text-sm text-[#1565C0] font-medium">Lihat Semua</button>
+      {/* Recent Activities */}
+      <div className="mt-6 px-4">
+        <div className="flex items-center justify-between mb-3">
+          <p className="font-semibold" style={{ color: '#E8EDF5', fontSize: '14px' }}>Kegiatan Terbaru</p>
+          <button className="flex items-center gap-1" style={{ color: '#1565C0', fontSize: '12px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Poppins, sans-serif' }}>
+            Semua <ArrowRight size={12} />
+          </button>
         </div>
-        
-        <div className="space-y-2">
-          {recentAnnouncements.map((announcement, index) => (
-            <Card key={index} className="p-3 border-0 shadow-sm bg-white">
-              <div className="flex items-start gap-3">
-                <div className={`w-2 h-2 rounded-full mt-2 flex-shrink-0 ${
-                  announcement.priority === 'high' ? 'bg-red-500' :
-                  announcement.priority === 'medium' ? 'bg-yellow-500' :
-                  'bg-green-500'
-                }`}></div>
-                <div className="flex-1">
-                  <h4 className="font-medium text-[#0A1D37] text-sm mb-1">
-                    {announcement.title}
-                  </h4>
-                  <p className="text-xs text-gray-500">{announcement.date}</p>
+        <div className="space-y-2.5">
+          {recentActivities.map(activity => {
+            const s = STATUS_CFG[activity.status] || STATUS_CFG.perencanaan;
+            return (
+              <div key={activity.id} className="rounded-2xl p-4" style={{ background: '#0D1B2E', border: '1px solid rgba(255,255,255,0.07)' }}>
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: 'rgba(21,101,192,0.15)' }}>
+                    <Calendar size={18} style={{ color: '#1565C0' }} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between gap-2 mb-1">
+                      <p className="font-semibold text-white truncate" style={{ fontSize: '13px' }}>{activity.title}</p>
+                      <span style={{ fontSize: '10px', fontWeight: 600, padding: '2px 8px', borderRadius: '6px', background: s.bg, color: s.color, flexShrink: 0 }}>{s.label}</span>
+                    </div>
+                    <p style={{ color: '#8899AA', fontSize: '11px' }}>{activity.date} · {activity.time}</p>
+                    <p style={{ color: '#8899AA', fontSize: '11px', marginTop: '2px' }}>📍 {activity.location}</p>
+                  </div>
                 </div>
               </div>
-            </Card>
-          ))}
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Announcements */}
+      <div className="mt-6 px-4">
+        <div className="flex items-center justify-between mb-3">
+          <p className="font-semibold" style={{ color: '#E8EDF5', fontSize: '14px' }}>Pengumuman</p>
+          <button className="flex items-center gap-1" style={{ color: '#1565C0', fontSize: '12px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Poppins, sans-serif' }}>
+            Semua <ArrowRight size={12} />
+          </button>
+        </div>
+        <div className="space-y-2">
+          {recentAnnouncements.map((a, i) => {
+            const dot = a.priority === 'high' ? '#EF4444' : a.priority === 'medium' ? '#FBC02D' : '#34D399';
+            return (
+              <div key={i} className="flex items-center gap-3 rounded-xl px-4 py-3" style={{ background: '#0D1B2E', border: '1px solid rgba(255,255,255,0.07)' }}>
+                <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: dot, flexShrink: 0 }} />
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-white truncate" style={{ fontSize: '12px' }}>{a.title}</p>
+                  <p style={{ color: '#8899AA', fontSize: '10px' }}>{a.date}</p>
+                </div>
+                <span style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '6px', background: 'rgba(21,101,192,0.15)', color: '#60A5FA', flexShrink: 0 }}>{a.tag}</span>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

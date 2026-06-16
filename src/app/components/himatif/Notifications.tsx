@@ -1,7 +1,5 @@
-import { Bell, Calendar, MessageSquare, Award, Users, FileText, UserPlus, Clock } from 'lucide-react';
-import { Card } from '@/app/components/ui/card';
-import { Badge } from '@/app/components/ui/badge';
-import { Button } from '@/app/components/ui/button';
+import { Bell, MessageSquare, Award, FileText, Clock, CheckCheck } from 'lucide-react';
+import { useState } from 'react';
 import { UserRole } from '@/types';
 
 interface NotificationsProps {
@@ -19,7 +17,7 @@ interface Notification {
 }
 
 export function Notifications({ userRole }: NotificationsProps) {
-  const notifications: Notification[] = [
+  const [notifList, setNotifList] = useState<Notification[]>([
     {
       id: '1',
       type: 'rapat',
@@ -65,95 +63,63 @@ export function Notifications({ userRole }: NotificationsProps) {
       read: true,
       priority: 'low'
     }
-  ];
+  ]);
 
   const getIcon = (type: string) => {
+    const cls = { display:'flex', alignItems:'center', justifyContent:'center', width:'36px', height:'36px', borderRadius:'10px', flexShrink: 0 as const };
     switch (type) {
-      case 'rapat': return <MessageSquare className="w-5 h-5 text-red-500" />;
-      case 'deadline': return <Clock className="w-5 h-5 text-orange-500" />;
-      case 'reminder': return <Bell className="w-5 h-5 text-blue-500" />;
-      case 'achievement': return <Award className="w-5 h-5 text-yellow-500" />;
-      case 'info': return <FileText className="w-5 h-5 text-green-500" />;
-      default: return <Bell className="w-5 h-5 text-gray-500" />;
+      case 'rapat': return <div style={{ ...cls, background: 'rgba(239,68,68,0.15)' }}><MessageSquare size={18} style={{ color: '#EF4444' }} /></div>;
+      case 'deadline': return <div style={{ ...cls, background: 'rgba(251,192,45,0.15)' }}><Clock size={18} style={{ color: '#FBC02D' }} /></div>;
+      case 'reminder': return <div style={{ ...cls, background: 'rgba(96,165,250,0.15)' }}><Bell size={18} style={{ color: '#60A5FA' }} /></div>;
+      case 'achievement': return <div style={{ ...cls, background: 'rgba(251,192,45,0.15)' }}><Award size={18} style={{ color: '#FBC02D' }} /></div>;
+      case 'info': return <div style={{ ...cls, background: 'rgba(52,211,153,0.15)' }}><FileText size={18} style={{ color: '#34D399' }} /></div>;
+      default: return <div style={{ ...cls, background: 'rgba(136,153,170,0.15)' }}><Bell size={18} style={{ color: '#8899AA' }} /></div>;
     }
   };
 
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'high': return 'bg-red-500';
-      case 'medium': return 'bg-yellow-500';
-      case 'low': return 'bg-green-500';
-      default: return 'bg-gray-500';
-    }
-  };
-
+  const notifications = notifList;
   const unreadCount = notifications.filter(n => !n.read).length;
+  const markAllRead = () => setNotifList(prev => prev.map(n => ({ ...n, read: true })));
 
   return (
-    <div className="pb-20 bg-[#F4F6F8]">
+    <div className="pb-24 min-h-screen" style={{ background: '#060E1C' }}>
       <div className="px-4 pt-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-xl font-bold text-[#0A1D37]">Notifikasi</h2>
-            <p className="text-sm text-gray-600">
+            <h2 className="text-xl font-bold text-foreground">Notifikasi</h2>
+            <p className="text-sm text-muted-foreground">
               {unreadCount} notifikasi belum dibaca
             </p>
           </div>
-          <Button variant="ghost" size="sm" className="text-[#1565C0]">
-            Tandai Semua Dibaca
-          </Button>
+          <button onClick={markAllRead} style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '11px', color: '#1565C0', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Poppins, sans-serif' }}>
+            <CheckCheck size={14} /> Baca Semua
+          </button>
         </div>
 
         {/* Notification List */}
-        <div className="space-y-3">
-          {notifications.map((notification) => (
-            <Card 
-              key={notification.id}
-              className={`p-4 border-0 shadow-sm ${
-                notification.read ? 'bg-white' : 'bg-blue-50 border-l-4 border-l-[#1565C0]'
-              }`}
-            >
-              <div className="flex gap-3">
-                <div className="flex-shrink-0 mt-1">
-                  {getIcon(notification.type)}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-2 mb-1">
-                    <h3 className={`font-semibold ${
-                      notification.read ? 'text-gray-700' : 'text-[#0A1D37]'
-                    }`}>
-                      {notification.title}
-                    </h3>
-                    <div className="flex items-center gap-2 flex-shrink-0">
-                      <div 
-                        className={`w-2 h-2 rounded-full ${getPriorityColor(notification.priority)}`}
-                        title={notification.priority}
-                      ></div>
-                      {!notification.read && (
-                        <div className="w-2 h-2 bg-[#1565C0] rounded-full"></div>
-                      )}
+        <div className="space-y-2">
+          {notifications.map((notification) => {
+            const pDot: Record<string, string> = { high: '#EF4444', medium: '#FBC02D', low: '#34D399' };
+            return (
+              <div key={notification.id}
+                style={{ borderRadius: '16px', padding: '14px', background: notification.read ? '#0D1B2E' : 'rgba(21,101,192,0.12)', border: notification.read ? '1px solid rgba(255,255,255,0.07)' : '1px solid rgba(21,101,192,0.3)', display: 'flex', gap: '12px' }}>
+                <div style={{ marginTop: '2px', flexShrink: 0 }}>{getIcon(notification.type)}</div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '8px', marginBottom: '4px' }}>
+                    <p style={{ fontWeight: notification.read ? 500 : 700, fontSize: '13px', color: '#E8EDF5' }}>{notification.title}</p>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '5px', flexShrink: 0 }}>
+                      <div style={{ width: '7px', height: '7px', borderRadius: '50%', background: pDot[notification.priority] }} />
+                      {!notification.read && <div style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#1565C0' }} />}
                     </div>
                   </div>
-                  <p className="text-sm text-gray-600 mb-2">
-                    {notification.message}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    {notification.time}
-                  </p>
+                  <p style={{ color: '#8899AA', fontSize: '12px', lineHeight: 1.5, marginBottom: '6px' }}>{notification.message}</p>
+                  <p style={{ color: '#8899AA', fontSize: '10px' }}>{notification.time}</p>
                 </div>
               </div>
-            </Card>
-          ))}
+            );
+          })}
         </div>
-
-        {/* Empty State */}
-        {notifications.length === 0 && (
-          <Card className="p-12 text-center bg-white">
-            <Bell className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-            <p className="text-gray-500">Tidak ada notifikasi</p>
-          </Card>
-        )}
       </div>
     </div>
   );

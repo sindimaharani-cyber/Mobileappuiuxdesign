@@ -46,36 +46,36 @@ export function ProdiMonitoring() {
     : 0;
 
   return (
-    <div className="pb-20 bg-[#F4F6F8]">
+    <div className="pb-24">
       <div className="px-4 pt-4">
         {/* Header */}
         <div className="mb-6">
-          <h2 className="text-xl font-bold text-[#0A1D37]">Dashboard Monitoring Prodi</h2>
-          <p className="text-sm text-gray-600">Monitoring aktivitas HIMATIF (Read-Only)</p>
+          <h2 className="text-xl font-bold text-foreground">Dashboard Monitoring Prodi</h2>
+          <p className="text-sm text-muted-foreground">Monitoring aktivitas HIMATIF (Read-Only)</p>
         </div>
 
         {/* Overview Stats */}
         <div className="grid grid-cols-2 gap-3 mb-6">
-          <Card className="p-4 border-0 shadow-sm bg-white">
+          <Card className="p-4 border-0 bg-card">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
                 <Users className="w-5 h-5 text-[#1565C0]" />
               </div>
               <div>
-                <p className="text-xs text-gray-600">Anggota Aktif</p>
-                <p className="text-2xl font-bold text-[#0A1D37]">{totalMembers}</p>
+                <p className="text-xs text-muted-foreground">Anggota Aktif</p>
+                <p className="text-2xl font-bold text-foreground">{totalMembers}</p>
               </div>
             </div>
           </Card>
 
-          <Card className="p-4 border-0 shadow-sm bg-white">
+          <Card className="p-4 border-0 bg-card">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
                 <Wallet className="w-5 h-5 text-green-600" />
               </div>
               <div>
-                <p className="text-xs text-gray-600">Saldo Kas</p>
-                <p className="text-lg font-bold text-[#0A1D37]">
+                <p className="text-xs text-muted-foreground">Saldo Kas</p>
+                <p className="text-lg font-bold text-foreground">
                   {formatCurrency(balance).replace('Rp', '').trim().split(',')[0]}
                 </p>
               </div>
@@ -84,10 +84,10 @@ export function ProdiMonitoring() {
         </div>
 
         {/* Activities Status */}
-        <Card className="p-5 border-0 shadow-sm bg-white mb-6">
+        <Card className="p-5 border-0 shadow-sm bg-card mb-6">
           <div className="flex items-center gap-2 mb-4">
             <Calendar className="w-5 h-5 text-[#1565C0]" />
-            <h3 className="font-semibold text-[#0A1D37]">Status Kegiatan</h3>
+            <h3 className="font-semibold text-foreground">Status Kegiatan</h3>
           </div>
           
           <div className="grid grid-cols-3 gap-3">
@@ -97,7 +97,7 @@ export function ProdiMonitoring() {
                   {activitiesByStatus.perencanaan}
                 </span>
               </div>
-              <p className="text-xs text-gray-600">Perencanaan</p>
+              <p className="text-xs text-muted-foreground">Perencanaan</p>
             </div>
             <div className="text-center">
               <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-2">
@@ -105,7 +105,7 @@ export function ProdiMonitoring() {
                   {activitiesByStatus.pelaksanaan}
                 </span>
               </div>
-              <p className="text-xs text-gray-600">Pelaksanaan</p>
+              <p className="text-xs text-muted-foreground">Pelaksanaan</p>
             </div>
             <div className="text-center">
               <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-2">
@@ -113,17 +113,17 @@ export function ProdiMonitoring() {
                   {activitiesByStatus.selesai}
                 </span>
               </div>
-              <p className="text-xs text-gray-600">Selesai</p>
+              <p className="text-xs text-muted-foreground">Selesai</p>
             </div>
           </div>
         </Card>
 
         {/* Recent Activities */}
-        <Card className="p-5 border-0 shadow-sm bg-white mb-6">
+        <Card className="p-5 border-0 shadow-sm bg-card mb-6">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <FileText className="w-5 h-5 text-[#1565C0]" />
-              <h3 className="font-semibold text-[#0A1D37]">Kegiatan Terbaru</h3>
+              <h3 className="font-semibold text-foreground">Kegiatan Terbaru</h3>
             </div>
           </div>
 
@@ -131,8 +131,8 @@ export function ProdiMonitoring() {
             {mockActivities.slice(0, 3).map((activity) => (
               <div key={activity.id} className="flex items-start gap-3 pb-3 border-b last:border-b-0">
                 <div className="w-2 h-2 rounded-full bg-[#1565C0] mt-2"></div>
-                <div className="flex-1 min-w-0">
-                  <h4 className="text-sm font-medium text-[#0A1D37] mb-1">
+                <div className="flex-1 bg-background min-w-0">
+                  <h4 className="text-sm font-medium text-foreground mb-1">
                     {activity.title}
                   </h4>
                   <div className="flex items-center gap-2">
@@ -147,7 +147,7 @@ export function ProdiMonitoring() {
                        activity.status === 'pelaksanaan' ? 'Berlangsung' :
                        'Perencanaan'}
                     </Badge>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-muted-foreground">
                       {formatDate(activity.date)}
                     </span>
                   </div>
@@ -158,10 +158,10 @@ export function ProdiMonitoring() {
         </Card>
 
         {/* Financial Summary */}
-        <Card className="p-5 border-0 shadow-sm bg-white mb-6">
+        <Card className="p-5 border-0 shadow-sm bg-card mb-6">
           <div className="flex items-center gap-2 mb-4">
             <Wallet className="w-5 h-5 text-[#1565C0]" />
-            <h3 className="font-semibold text-[#0A1D37]">Ringkasan Keuangan</h3>
+            <h3 className="font-semibold text-foreground">Ringkasan Keuangan</h3>
           </div>
 
           <div className="space-y-3">
@@ -190,27 +190,27 @@ export function ProdiMonitoring() {
             </div>
           </div>
 
-          <div className="mt-4 pt-4 border-t border-gray-200">
-            <p className="text-xs text-gray-500 text-center">
+          <div className="mt-4 pt-4 border-t border-border">
+            <p className="text-xs text-muted-foreground text-center">
               Transparansi keuangan HIMATIF periode Januari 2026
             </p>
           </div>
         </Card>
 
         {/* Jobdesk Progress */}
-        <Card className="p-5 border-0 shadow-sm bg-white mb-6">
+        <Card className="p-5 border-0 shadow-sm bg-card mb-6">
           <div className="flex items-center gap-2 mb-4">
             <ClipboardList className="w-5 h-5 text-[#1565C0]" />
-            <h3 className="font-semibold text-[#0A1D37]">Progres Jobdesk Divisi</h3>
+            <h3 className="font-semibold text-foreground">Progres Jobdesk Divisi</h3>
           </div>
 
           {/* Progress Bar */}
           <div className="mb-4">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-gray-600">Total Penyelesaian</span>
+              <span className="text-sm text-muted-foreground">Total Penyelesaian</span>
               <span className="text-sm font-bold text-[#1565C0]">{completionRate}%</span>
             </div>
-            <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+            <div className="w-full h-3 bg-muted rounded-full overflow-hidden">
               <div 
                 className="h-full bg-gradient-to-r from-[#1565C0] to-[#FBC02D] transition-all"
                 style={{ width: `${completionRate}%` }}
@@ -221,24 +221,24 @@ export function ProdiMonitoring() {
           <div className="grid grid-cols-3 gap-3">
             <div className="text-center p-3 bg-red-50 rounded-lg">
               <p className="text-xl font-bold text-red-600">{jobdeskProgress.notStarted}</p>
-              <p className="text-xs text-gray-600 mt-1">Belum</p>
+              <p className="text-xs text-muted-foreground mt-1">Belum</p>
             </div>
             <div className="text-center p-3 bg-yellow-50 rounded-lg">
               <p className="text-xl font-bold text-yellow-600">{jobdeskProgress.inProgress}</p>
-              <p className="text-xs text-gray-600 mt-1">Proses</p>
+              <p className="text-xs text-muted-foreground mt-1">Proses</p>
             </div>
             <div className="text-center p-3 bg-green-50 rounded-lg">
               <p className="text-xl font-bold text-green-600">{jobdeskProgress.completed}</p>
-              <p className="text-xs text-gray-600 mt-1">Selesai</p>
+              <p className="text-xs text-muted-foreground mt-1">Selesai</p>
             </div>
           </div>
         </Card>
 
         {/* Documentation */}
-        <Card className="p-5 border-0 shadow-sm bg-white">
+        <Card className="p-5 border-0 shadow-sm bg-card">
           <div className="flex items-center gap-2 mb-4">
             <CheckCircle className="w-5 h-5 text-[#1565C0]" />
-            <h3 className="font-semibold text-[#0A1D37]">Dokumentasi Kegiatan</h3>
+            <h3 className="font-semibold text-foreground">Dokumentasi Kegiatan</h3>
           </div>
 
           <div className="space-y-2">
@@ -246,7 +246,7 @@ export function ProdiMonitoring() {
               .filter(a => a.status === 'selesai')
               .slice(0, 3)
               .map((activity) => (
-                <div key={activity.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div key={activity.id} className="flex items-center justify-between p-3 bg-muted rounded-lg">
                   <span className="text-sm text-gray-700">{activity.title}</span>
                   <Badge className="bg-green-100 text-green-700 text-xs">
                     {activity.documentation?.length || 0} foto
@@ -256,7 +256,7 @@ export function ProdiMonitoring() {
           </div>
 
           {mockActivities.filter(a => a.status === 'selesai').length === 0 && (
-            <p className="text-sm text-gray-500 text-center py-4">
+            <p className="text-sm text-muted-foreground text-center py-4">
               Belum ada kegiatan dengan dokumentasi
             </p>
           )}

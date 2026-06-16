@@ -57,7 +57,7 @@ export function Certificates({ userName }: CertificatesProps) {
       case 'peserta': return 'bg-blue-100 text-blue-700';
       case 'panitia': return 'bg-purple-100 text-purple-700';
       case 'pemateri': return 'bg-orange-100 text-orange-700';
-      default: return 'bg-gray-100 text-gray-700';
+      default: return 'bg-muted text-gray-700';
     }
   };
 
@@ -70,12 +70,12 @@ export function Certificates({ userName }: CertificatesProps) {
   };
 
   return (
-    <div className="pb-20 bg-[#F4F6F8]">
+    <div className="pb-24">
       <div className="px-4 pt-4">
         {/* Header */}
         <div className="mb-6">
-          <h2 className="text-xl font-bold text-[#0A1D37]">Sertifikat Digital</h2>
-          <p className="text-sm text-gray-600">Koleksi sertifikat kegiatan Anda</p>
+          <h2 className="text-xl font-bold text-foreground">Sertifikat Digital</h2>
+          <p className="text-sm text-muted-foreground">Koleksi sertifikat kegiatan Anda</p>
         </div>
 
         {/* Summary Card */}
@@ -94,43 +94,43 @@ export function Certificates({ userName }: CertificatesProps) {
 
         {/* Stats */}
         <div className="grid grid-cols-3 gap-3 mb-6">
-          <Card className="p-3 border-0 shadow-sm bg-white text-center">
+          <Card className="p-3 border-0 shadow-sm bg-card text-center">
             <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center mx-auto mb-2">
               <Award className="w-5 h-5 text-blue-600" />
             </div>
-            <p className="text-lg font-bold text-[#0A1D37]">
+            <p className="text-lg font-bold text-foreground">
               {certificates.filter(c => c.category === 'peserta').length}
             </p>
-            <p className="text-xs text-gray-600">Peserta</p>
+            <p className="text-xs text-muted-foreground">Peserta</p>
           </Card>
 
-          <Card className="p-3 border-0 shadow-sm bg-white text-center">
+          <Card className="p-3 border-0 shadow-sm bg-card text-center">
             <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center mx-auto mb-2">
               <Award className="w-5 h-5 text-purple-600" />
             </div>
-            <p className="text-lg font-bold text-[#0A1D37]">
+            <p className="text-lg font-bold text-foreground">
               {certificates.filter(c => c.category === 'panitia').length}
             </p>
-            <p className="text-xs text-gray-600">Panitia</p>
+            <p className="text-xs text-muted-foreground">Panitia</p>
           </Card>
 
-          <Card className="p-3 border-0 shadow-sm bg-white text-center">
+          <Card className="p-3 border-0 shadow-sm bg-card text-center">
             <div className="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center mx-auto mb-2">
               <Award className="w-5 h-5 text-orange-600" />
             </div>
-            <p className="text-lg font-bold text-[#0A1D37]">
+            <p className="text-lg font-bold text-foreground">
               {certificates.filter(c => c.category === 'pemateri').length}
             </p>
-            <p className="text-xs text-gray-600">Pemateri</p>
+            <p className="text-xs text-muted-foreground">Pemateri</p>
           </Card>
         </div>
 
         {/* Certificates List */}
         <div>
-          <h3 className="font-semibold text-[#0A1D37] mb-3">Daftar Sertifikat</h3>
+          <h3 className="font-semibold text-foreground mb-3">Daftar Sertifikat</h3>
           <div className="space-y-3">
             {certificates.map((certificate) => (
-              <Card key={certificate.id} className="p-0 border-0 shadow-sm bg-white overflow-hidden">
+              <Card key={certificate.id} className="p-0 border-0 shadow-sm bg-card overflow-hidden">
                 {/* Certificate Header with Image */}
                 <div className="relative h-32 bg-gradient-to-br from-[#0A1D37] via-[#1565C0] to-[#FBC02D] p-4 flex items-center justify-center">
                   <div className="text-center text-white">
@@ -146,20 +146,20 @@ export function Certificates({ userName }: CertificatesProps) {
 
                 {/* Certificate Details */}
                 <div className="p-4">
-                  <h4 className="font-semibold text-[#0A1D37] mb-1">
+                  <h4 className="font-semibold text-foreground mb-1">
                     {certificate.eventName}
                   </h4>
-                  <p className="text-sm text-gray-600 mb-1">
+                  <p className="text-sm text-muted-foreground mb-1">
                     <span className="font-medium">Sebagai:</span> {certificate.role}
                   </p>
-                  <p className="text-xs text-gray-500 mb-3">
+                  <p className="text-xs text-muted-foreground mb-3">
                     📅 {certificate.date}
                   </p>
 
                   <div className="flex gap-2">
                     <Button
                       onClick={() => handleDownload(certificate)}
-                      className="flex-1 bg-[#1565C0] hover:bg-[#0A1D37]"
+                      className="flex-1 bg-background bg-[#1565C0] hover:bg-[#0A1D37]"
                       size="sm"
                     >
                       <Download className="w-4 h-4 mr-2" />
@@ -182,10 +182,10 @@ export function Certificates({ userName }: CertificatesProps) {
 
         {/* Empty State */}
         {certificates.length === 0 && (
-          <Card className="p-12 text-center bg-white">
+          <Card className="p-12 text-center bg-card">
             <Award className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-500 mb-2">Belum ada sertifikat</p>
-            <p className="text-sm text-gray-400">
+            <p className="text-muted-foreground mb-2">Belum ada sertifikat</p>
+            <p className="text-sm text-muted-foreground">
               Ikuti kegiatan HIMATIF untuk mendapatkan sertifikat digital
             </p>
           </Card>

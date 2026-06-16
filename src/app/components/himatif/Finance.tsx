@@ -20,6 +20,7 @@ interface FinanceProps {
 export function Finance({ userRole, userName }: FinanceProps) {
   const [transactions, setTransactions] = useState<FinancialTransaction[]>(mockTransactions);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [activeFilter, setActiveFilter] = useState('all');
   const [formData, setFormData] = useState({
     type: 'pemasukan' as 'pemasukan' | 'pengeluaran',
     amount: '',
@@ -84,62 +85,40 @@ export function Finance({ userRole, userName }: FinanceProps) {
   const incomeTransactions = transactions.filter(t => t.type === 'pemasukan');
   const expenseTransactions = transactions.filter(t => t.type === 'pengeluaran');
 
-  const TransactionCard = ({ transaction }: { transaction: FinancialTransaction }) => (
-    <Card className="p-4 border-0 shadow-sm bg-white">
-      <div className="flex items-start gap-3">
-        <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
-          transaction.type === 'pemasukan' 
-            ? 'bg-green-100' 
-            : 'bg-red-100'
-        }`}>
-          {transaction.type === 'pemasukan' ? (
-            <TrendingUp className="w-5 h-5 text-green-600" />
-          ) : (
-            <TrendingDown className="w-5 h-5 text-red-600" />
-          )}
+  const TransactionCard = ({ transaction }: { transaction: FinancialTransaction }) => {
+    const isIncome = transaction.type === 'pemasukan';
+    return (
+      <div style={{ borderRadius: '16px', padding: '14px', background: '#0D1B2E', border: '1px solid rgba(255,255,255,0.07)', display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+        <div style={{ width: '40px', height: '40px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: isIncome ? 'rgba(52,211,153,0.12)' : 'rgba(239,68,68,0.12)' }}>
+          {isIncome ? <TrendingUp size={18} style={{ color: '#34D399' }} /> : <TrendingDown size={18} style={{ color: '#EF4444' }} />}
         </div>
-
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between gap-2 mb-1">
-            <div className="flex-1 min-w-0">
-              <h4 className="font-semibold text-[#0A1D37]">
-                {transaction.description}
-              </h4>
-              {transaction.activityId && (
-                <p className="text-xs text-gray-500 mt-1">
-                  Terkait: {getActivityName(transaction.activityId)}
-                </p>
-              )}
-            </div>
-            <p className={`font-bold text-lg flex-shrink-0 ${
-              transaction.type === 'pemasukan' ? 'text-green-600' : 'text-red-600'
-            }`}>
-              {transaction.type === 'pemasukan' ? '+' : '-'}{formatCurrency(transaction.amount)}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: '8px', alignItems: 'flex-start', marginBottom: '4px' }}>
+            <p style={{ fontSize: '13px', fontWeight: 600, color: '#E8EDF5', flex: 1 }}>{transaction.description}</p>
+            <p style={{ fontSize: '14px', fontWeight: 700, color: isIncome ? '#34D399' : '#EF4444', flexShrink: 0 }}>
+              {isIncome ? '+' : '-'}{formatCurrency(transaction.amount)}
             </p>
           </div>
-
-          <div className="flex items-center justify-between mt-2">
-            <p className="text-xs text-gray-500">
-              <Calendar className="w-3 h-3 inline mr-1" />
-              {formatDate(transaction.date)}
-            </p>
-            <p className="text-xs text-gray-500">
-              Oleh: {transaction.createdBy}
-            </p>
+          {transaction.activityId && (
+            <p style={{ fontSize: '11px', color: '#60A5FA', marginBottom: '2px' }}>📎 {getActivityName(transaction.activityId)}</p>
+          )}
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <p style={{ fontSize: '11px', color: '#8899AA' }}>📅 {formatDate(transaction.date)}</p>
+            <p style={{ fontSize: '11px', color: '#8899AA' }}>Oleh: {transaction.createdBy}</p>
           </div>
         </div>
       </div>
-    </Card>
-  );
+    );
+  };
 
   return (
-    <div className="pb-20 bg-[#F4F6F8]">
+    <div className="pb-24 min-h-screen" style={{ background: '#060E1C' }}>
       <div className="px-4 pt-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-xl font-bold text-[#0A1D37]">Keuangan</h2>
-            <p className="text-sm text-gray-600">Transparansi keuangan HIMATIF</p>
+            <h2 className="text-xl font-bold text-foreground">Keuangan</h2>
+            <p className="text-sm text-muted-foreground">Transparansi keuangan HIMATIF</p>
           </div>
           {canManage && (
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -241,89 +220,46 @@ export function Finance({ userRole, userName }: FinanceProps) {
           )}
         </div>
 
-        {/* Summary Cards */}
-        <div className="grid grid-cols-1 gap-3 mb-6">
-          <Card className="p-5 border-0 shadow-md bg-gradient-to-br from-[#0A1D37] to-[#1565C0] text-white">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm opacity-90 mb-1">Saldo Kas Saat Ini</p>
-                <p className="text-3xl font-bold">{formatCurrency(balance)}</p>
-              </div>
-              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                <DollarSign className="w-6 h-6" />
-              </div>
-            </div>
-          </Card>
-
-          <div className="grid grid-cols-2 gap-3">
-            <Card className="p-4 border-0 shadow-sm bg-white">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
-                  <TrendingUp className="w-5 h-5 text-green-600" />
+        {/* Balance card */}
+        <div style={{ borderRadius: '20px', padding: '20px', marginBottom: '16px', background: 'linear-gradient(135deg, #0A1D37 0%, #1565C0 100%)', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', right: '-20px', top: '-20px', width: '100px', height: '100px', borderRadius: '50%', background: 'rgba(251,192,45,0.1)' }} />
+          <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px', marginBottom: '6px' }}>Saldo Kas HIMATIF</p>
+          <p style={{ color: '#fff', fontWeight: 800, fontSize: '28px', marginBottom: '16px' }}>{formatCurrency(balance)}</p>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+            {[
+              { label: 'Pemasukan', value: totalIncome, icon: <TrendingUp size={14} />, color: '#34D399' },
+              { label: 'Pengeluaran', value: totalExpense, icon: <TrendingDown size={14} />, color: '#EF4444' },
+            ].map(item => (
+              <div key={item.label} style={{ background: 'rgba(255,255,255,0.1)', borderRadius: '12px', padding: '10px 12px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '4px', color: item.color }}>
+                  {item.icon}
+                  <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.7)' }}>{item.label}</span>
                 </div>
-                <div>
-                  <p className="text-xs text-gray-600">Total Pemasukan</p>
-                  <p className="font-bold text-[#0A1D37]">{formatCurrency(totalIncome)}</p>
-                </div>
+                <p style={{ color: '#fff', fontWeight: 700, fontSize: '13px' }}>{formatCurrency(item.value)}</p>
               </div>
-            </Card>
-
-            <Card className="p-4 border-0 shadow-sm bg-white">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-red-100 flex items-center justify-center">
-                  <TrendingDown className="w-5 h-5 text-red-600" />
-                </div>
-                <div>
-                  <p className="text-xs text-gray-600">Total Pengeluaran</p>
-                  <p className="font-bold text-[#0A1D37]">{formatCurrency(totalExpense)}</p>
-                </div>
-              </div>
-            </Card>
+            ))}
           </div>
         </div>
 
-        {/* Tabs */}
-        <Tabs defaultValue="all" className="space-y-4">
-          <TabsList className="grid grid-cols-3 w-full">
-            <TabsTrigger value="all">
-              Semua ({transactions.length})
-            </TabsTrigger>
-            <TabsTrigger value="income">
-              Pemasukan ({incomeTransactions.length})
-            </TabsTrigger>
-            <TabsTrigger value="expense">
-              Pengeluaran ({expenseTransactions.length})
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="all" className="space-y-3 mt-4">
-            {transactions.map((transaction) => (
-              <TransactionCard key={transaction.id} transaction={transaction} />
-            ))}
-          </TabsContent>
-
-          <TabsContent value="income" className="space-y-3 mt-4">
-            {incomeTransactions.map((transaction) => (
-              <TransactionCard key={transaction.id} transaction={transaction} />
-            ))}
-            {incomeTransactions.length === 0 && (
-              <Card className="p-8 text-center bg-white">
-                <p className="text-gray-500">Belum ada pemasukan</p>
-              </Card>
-            )}
-          </TabsContent>
-
-          <TabsContent value="expense" className="space-y-3 mt-4">
-            {expenseTransactions.map((transaction) => (
-              <TransactionCard key={transaction.id} transaction={transaction} />
-            ))}
-            {expenseTransactions.length === 0 && (
-              <Card className="p-8 text-center bg-white">
-                <p className="text-gray-500">Belum ada pengeluaran</p>
-              </Card>
-            )}
-          </TabsContent>
-        </Tabs>
+        {/* Filter tabs */}
+        {(() => {
+          const filtered = activeFilter === 'all' ? transactions : transactions.filter(t => t.type === (activeFilter === 'income' ? 'pemasukan' : 'pengeluaran'));
+          return (
+            <>
+              <div style={{ display: 'flex', gap: '8px', marginBottom: '14px' }}>
+                {[{ id:'all', label:`Semua (${transactions.length})` }, { id:'income', label:`Masuk (${incomeTransactions.length})` }, { id:'expense', label:`Keluar (${expenseTransactions.length})` }].map(tab => (
+                  <button key={tab.id} onClick={() => setActiveFilter(tab.id)}
+                    style={{ flex: 1, padding: '8px 4px', borderRadius: '10px', fontSize: '11px', fontWeight: activeFilter === tab.id ? 700 : 400, background: activeFilter === tab.id ? '#1565C0' : '#0D1B2E', color: activeFilter === tab.id ? '#fff' : '#8899AA', border: activeFilter === tab.id ? 'none' : '1px solid rgba(255,255,255,0.08)', cursor: 'pointer', fontFamily: 'Poppins, sans-serif' }}>
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {filtered.map(t => <TransactionCard key={t.id} transaction={t} />)}
+              </div>
+            </>
+          );
+        })()}
       </div>
     </div>
   );

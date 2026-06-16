@@ -92,14 +92,14 @@ export function Activities({ userRole, userName }: ActivitiesProps) {
   };
 
   const ActivityCard = ({ activity }: { activity: Activity }) => (
-    <Card className="p-4 border-0 shadow-sm bg-white">
+    <Card className="p-4 border-0 bg-card">
       <div className="flex items-start gap-3">
         <div className="w-12 h-12 rounded-lg bg-[#1565C0]/10 flex items-center justify-center flex-shrink-0">
           <Calendar className="w-6 h-6 text-[#1565C0]" />
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2 mb-2">
-            <h3 className="font-semibold text-[#0A1D37]">{activity.title}</h3>
+            <h3 className="font-semibold text-foreground">{activity.title}</h3>
             <Badge 
               variant="outline" 
               className={`text-xs flex-shrink-0 ${getStatusColor(activity.status)}`}
@@ -108,18 +108,18 @@ export function Activities({ userRole, userName }: ActivitiesProps) {
             </Badge>
           </div>
 
-          <p className="text-sm text-gray-600 mb-3">{activity.description}</p>
+          <p className="text-sm text-muted-foreground mb-3">{activity.description}</p>
 
           <div className="space-y-1.5 mb-3">
-            <div className="flex items-center gap-2 text-sm text-gray-600">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Calendar className="w-4 h-4 text-[#1565C0]" />
               <span>{formatDate(activity.date)}</span>
             </div>
-            <div className="flex items-center gap-2 text-sm text-gray-600">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Clock className="w-4 h-4 text-[#1565C0]" />
               <span>{activity.time}</span>
             </div>
-            <div className="flex items-center gap-2 text-sm text-gray-600">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <MapPin className="w-4 h-4 text-[#1565C0]" />
               <span>{activity.location}</span>
             </div>
@@ -190,13 +190,13 @@ export function Activities({ userRole, userName }: ActivitiesProps) {
   );
 
   return (
-    <div className="pb-20 bg-[#F4F6F8]">
+    <div className="pb-24 min-h-screen" style={{ background: '#060E1C' }}>
       <div className="px-4 pt-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-xl font-bold text-[#0A1D37]">Kegiatan</h2>
-            <p className="text-sm text-gray-600">Manajemen kegiatan HIMATIF</p>
+            <h2 className="text-xl font-bold text-foreground">Kegiatan</h2>
+            <p className="text-sm text-muted-foreground">Manajemen kegiatan HIMATIF</p>
           </div>
           {canManage && (
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -326,8 +326,8 @@ export function Activities({ userRole, userName }: ActivitiesProps) {
               <ActivityCard key={activity.id} activity={activity} />
             ))}
             {getActivitiesByStatus('perencanaan').length === 0 && (
-              <Card className="p-8 text-center bg-white">
-                <p className="text-gray-500">Tidak ada kegiatan dalam perencanaan</p>
+              <Card className="p-8 text-center bg-card">
+                <p className="text-muted-foreground">Tidak ada kegiatan dalam perencanaan</p>
               </Card>
             )}
           </TabsContent>
@@ -337,8 +337,8 @@ export function Activities({ userRole, userName }: ActivitiesProps) {
               <ActivityCard key={activity.id} activity={activity} />
             ))}
             {getActivitiesByStatus('pelaksanaan').length === 0 && (
-              <Card className="p-8 text-center bg-white">
-                <p className="text-gray-500">Tidak ada kegiatan dalam pelaksanaan</p>
+              <Card className="p-8 text-center bg-card">
+                <p className="text-muted-foreground">Tidak ada kegiatan dalam pelaksanaan</p>
               </Card>
             )}
           </TabsContent>
@@ -348,8 +348,8 @@ export function Activities({ userRole, userName }: ActivitiesProps) {
               <ActivityCard key={activity.id} activity={activity} />
             ))}
             {getActivitiesByStatus('selesai').length === 0 && (
-              <Card className="p-8 text-center bg-white">
-                <p className="text-gray-500">Belum ada kegiatan selesai</p>
+              <Card className="p-8 text-center bg-card">
+                <p className="text-muted-foreground">Belum ada kegiatan selesai</p>
               </Card>
             )}
           </TabsContent>
@@ -366,21 +366,21 @@ export function Activities({ userRole, userName }: ActivitiesProps) {
             <div className="space-y-4">
               <div>
                 <p className="text-sm font-medium text-gray-700 mb-1">Deskripsi</p>
-                <p className="text-sm text-gray-600">{selectedActivity.description}</p>
+                <p className="text-sm text-muted-foreground">{selectedActivity.description}</p>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm font-medium text-gray-700 mb-1">Tanggal</p>
-                  <p className="text-sm text-gray-600">{formatDate(selectedActivity.date)}</p>
+                  <p className="text-sm text-muted-foreground">{formatDate(selectedActivity.date)}</p>
                 </div>
                 <div>
                   <p className="text-sm font-medium text-gray-700 mb-1">Waktu</p>
-                  <p className="text-sm text-gray-600">{selectedActivity.time}</p>
+                  <p className="text-sm text-muted-foreground">{selectedActivity.time}</p>
                 </div>
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-700 mb-1">Lokasi</p>
-                <p className="text-sm text-gray-600">{selectedActivity.location}</p>
+                <p className="text-sm text-muted-foreground">{selectedActivity.location}</p>
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-700 mb-1">Status</p>
@@ -393,8 +393,8 @@ export function Activities({ userRole, userName }: ActivitiesProps) {
                   <p className="text-sm font-medium text-gray-700 mb-2">Dokumentasi</p>
                   <div className="grid grid-cols-3 gap-2">
                     {selectedActivity.documentation.map((doc, idx) => (
-                      <div key={idx} className="aspect-square bg-gray-200 rounded-lg flex items-center justify-center">
-                        <span className="text-xs text-gray-500">Foto {idx + 1}</span>
+                      <div key={idx} className="aspect-square bg-muted rounded-lg flex items-center justify-center">
+                        <span className="text-xs text-muted-foreground">Foto {idx + 1}</span>
                       </div>
                     ))}
                   </div>

@@ -70,7 +70,7 @@ export function Announcements({ userRole, userName }: AnnouncementsProps) {
       case 'Acara': return 'bg-blue-100 text-blue-700 border-blue-200';
       case 'Keuangan': return 'bg-green-100 text-green-700 border-green-200';
       case 'Penting': return 'bg-orange-100 text-orange-700 border-orange-200';
-      default: return 'bg-gray-100 text-gray-700 border-gray-200';
+      default: return 'bg-muted text-gray-700 border-border';
     }
   };
 
@@ -80,13 +80,13 @@ export function Announcements({ userRole, userName }: AnnouncementsProps) {
   };
 
   return (
-    <div className="pb-20 bg-[#F4F6F8]">
+    <div className="pb-24 min-h-screen" style={{ background: '#060E1C' }}>
       <div className="px-4 pt-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-xl font-bold text-[#0A1D37]">Pengumuman</h2>
-            <p className="text-sm text-gray-600">
+            <h2 className="text-xl font-bold text-foreground">Pengumuman</h2>
+            <p className="text-sm text-muted-foreground">
               {showArchived ? 'Arsip' : 'Aktif'} ({displayedAnnouncements.length})
             </p>
           </div>
@@ -176,8 +176,8 @@ export function Announcements({ userRole, userName }: AnnouncementsProps) {
         {/* Announcements List */}
         <div className="space-y-3">
           {displayedAnnouncements.length === 0 ? (
-            <Card className="p-8 text-center bg-white">
-              <p className="text-gray-500">
+            <Card className="p-8 text-center bg-card">
+              <p className="text-muted-foreground">
                 {showArchived ? 'Tidak ada pengumuman di arsip' : 'Belum ada pengumuman'}
               </p>
             </Card>
@@ -185,13 +185,13 @@ export function Announcements({ userRole, userName }: AnnouncementsProps) {
             displayedAnnouncements.map((announcement) => (
               <Card 
                 key={announcement.id} 
-                className="p-4 border-0 shadow-sm bg-white"
+                className="p-4 border-0 bg-card"
               >
                 <div className="flex gap-3">
                   {getPriorityIcon(announcement.category)}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2 mb-2">
-                      <h3 className="font-semibold text-[#0A1D37]">
+                      <h3 className="font-semibold text-foreground">
                         {announcement.title}
                       </h3>
                       <Badge 
@@ -202,12 +202,12 @@ export function Announcements({ userRole, userName }: AnnouncementsProps) {
                       </Badge>
                     </div>
 
-                    <p className="text-sm text-gray-600 leading-relaxed mb-3">
+                    <p className="text-sm text-muted-foreground leading-relaxed mb-3">
                       {announcement.content}
                     </p>
 
                     <div className="flex items-center justify-between">
-                      <div className="text-xs text-gray-500">
+                      <div className="text-xs text-muted-foreground">
                         <p>Oleh: <span className="font-medium">{announcement.author}</span></p>
                         <p className="mt-0.5">{formatDate(announcement.date)}</p>
                       </div>

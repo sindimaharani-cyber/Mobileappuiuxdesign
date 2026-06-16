@@ -66,7 +66,7 @@ export function CalendarView({ userRole }: CalendarViewProps) {
       case 'rapat': return 'bg-blue-100 text-blue-700 border-blue-200';
       case 'event': return 'bg-green-100 text-green-700 border-green-200';
       case 'deadline': return 'bg-red-100 text-red-700 border-red-200';
-      default: return 'bg-gray-100 text-gray-700 border-gray-200';
+      default: return 'bg-muted text-gray-700 border-border';
     }
   };
 
@@ -92,13 +92,13 @@ export function CalendarView({ userRole }: CalendarViewProps) {
   const canManage = userRole === 'admin';
 
   return (
-    <div className="pb-20 bg-[#F4F6F8]">
+    <div className="pb-24">
       <div className="px-4 pt-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-xl font-bold text-[#0A1D37]">Kalender Kegiatan</h2>
-            <p className="text-sm text-gray-600">Agenda & jadwal HIMATIF</p>
+            <h2 className="text-xl font-bold text-foreground">Kalender Kegiatan</h2>
+            <p className="text-sm text-muted-foreground">Agenda & jadwal HIMATIF</p>
           </div>
           <div className="flex gap-2">
             <Button
@@ -128,15 +128,15 @@ export function CalendarView({ userRole }: CalendarViewProps) {
             <CalendarIcon className="w-12 h-12 opacity-80" />
           </div>
           <div className="flex gap-4 mt-4">
-            <div className="flex-1 text-center p-3 bg-white/20 rounded-lg backdrop-blur-sm">
+            <div className="flex-1 bg-background text-center p-3 bg-card/20 rounded-lg backdrop-blur-sm">
               <p className="text-2xl font-bold">{events.filter(e => e.type === 'rapat').length}</p>
               <p className="text-xs opacity-90">Rapat</p>
             </div>
-            <div className="flex-1 text-center p-3 bg-white/20 rounded-lg backdrop-blur-sm">
+            <div className="flex-1 bg-background text-center p-3 bg-card/20 rounded-lg backdrop-blur-sm">
               <p className="text-2xl font-bold">{events.filter(e => e.type === 'event').length}</p>
               <p className="text-xs opacity-90">Event</p>
             </div>
-            <div className="flex-1 text-center p-3 bg-white/20 rounded-lg backdrop-blur-sm">
+            <div className="flex-1 bg-background text-center p-3 bg-card/20 rounded-lg backdrop-blur-sm">
               <p className="text-2xl font-bold">{events.filter(e => e.type === 'deadline').length}</p>
               <p className="text-xs opacity-90">Deadline</p>
             </div>
@@ -149,11 +149,11 @@ export function CalendarView({ userRole }: CalendarViewProps) {
             <div className="w-10 h-10 rounded-lg bg-[#1565C0] flex items-center justify-center flex-shrink-0">
               <CalendarIcon className="w-5 h-5 text-white" />
             </div>
-            <div className="flex-1">
-              <h4 className="font-semibold text-[#0A1D37] mb-1">
+            <div className="flex-1 bg-background">
+              <h4 className="font-semibold text-foreground mb-1">
                 Sinkronisasi Google Calendar
               </h4>
-              <p className="text-sm text-gray-600 mb-2">
+              <p className="text-sm text-muted-foreground mb-2">
                 Sinkronkan jadwal HIMATIF ke Google Calendar Anda untuk notifikasi otomatis.
               </p>
               <Button size="sm" variant="outline" className="border-[#1565C0] text-[#1565C0]">
@@ -165,17 +165,17 @@ export function CalendarView({ userRole }: CalendarViewProps) {
 
         {/* Events List */}
         <div>
-          <h3 className="font-semibold text-[#0A1D37] mb-3">Jadwal Mendatang</h3>
+          <h3 className="font-semibold text-foreground mb-3">Jadwal Mendatang</h3>
           <div className="space-y-3">
             {events.map((event) => (
-              <Card key={event.id} className="p-4 border-0 shadow-sm bg-white">
+              <Card key={event.id} className="p-4 border-0 bg-card">
                 <div className="flex gap-3">
                   <div className="flex-shrink-0 text-3xl">
                     {getEventIcon(event.type)}
                   </div>
-                  <div className="flex-1 min-w-0">
+                  <div className="flex-1 bg-background min-w-0">
                     <div className="flex items-start justify-between gap-2 mb-2">
-                      <h4 className="font-semibold text-[#0A1D37]">
+                      <h4 className="font-semibold text-foreground">
                         {event.title}
                       </h4>
                       <Badge 
@@ -186,21 +186,21 @@ export function CalendarView({ userRole }: CalendarViewProps) {
                       </Badge>
                     </div>
 
-                    <p className="text-sm text-gray-600 mb-3">
+                    <p className="text-sm text-muted-foreground mb-3">
                       {event.description}
                     </p>
 
                     <div className="space-y-1.5">
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <CalendarIcon className="w-4 h-4 text-[#1565C0]" />
                         <span>{formatDate(event.date)}</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Clock className="w-4 h-4 text-[#1565C0]" />
                         <span>{event.time}</span>
                       </div>
                       {event.location && (
-                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
                           <MapPin className="w-4 h-4 text-[#1565C0]" />
                           <span>{event.location}</span>
                         </div>
@@ -211,7 +211,7 @@ export function CalendarView({ userRole }: CalendarViewProps) {
                       <Button 
                         variant="outline" 
                         size="sm"
-                        className="flex-1 border-[#1565C0] text-[#1565C0]"
+                        className="flex-1 bg-background border-[#1565C0] text-[#1565C0]"
                       >
                         + Tambah ke Kalender
                       </Button>

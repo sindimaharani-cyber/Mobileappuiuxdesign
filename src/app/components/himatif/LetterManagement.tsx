@@ -113,7 +113,7 @@ export function LetterManagement({ userRole }: LetterManagementProps) {
       case 'pending': return 'bg-yellow-100 text-yellow-700';
       case 'approved': return 'bg-green-100 text-green-700';
       case 'sent': return 'bg-blue-100 text-blue-700';
-      default: return 'bg-gray-100 text-gray-700';
+      default: return 'bg-muted text-gray-700';
     }
   };
 
@@ -130,13 +130,13 @@ export function LetterManagement({ userRole }: LetterManagementProps) {
   const outgoingLetters = letters.filter(l => l.type === 'outgoing');
 
   return (
-    <div className="pb-20 bg-[#F4F6F8]">
+    <div className="pb-24">
       <div className="px-4 pt-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-xl font-bold text-[#0A1D37]">Manajemen Surat</h2>
-            <p className="text-sm text-gray-600">Surat masuk & keluar HIMATIF</p>
+            <h2 className="text-xl font-bold text-foreground">Manajemen Surat</h2>
+            <p className="text-sm text-muted-foreground">Surat masuk & keluar HIMATIF</p>
           </div>
           {canManage && (
             <Button size="sm" className="bg-[#1565C0] hover:bg-[#0A1D37]">
@@ -148,28 +148,28 @@ export function LetterManagement({ userRole }: LetterManagementProps) {
 
         {/* Stats */}
         <div className="grid grid-cols-2 gap-3 mb-6">
-          <Card className="p-4 border-0 shadow-sm bg-white">
+          <Card className="p-4 border-0 bg-card">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
                 <Inbox className="w-5 h-5 text-blue-600" />
               </div>
               <div>
-                <p className="text-xs text-gray-600">Surat Masuk</p>
-                <p className="text-2xl font-bold text-[#0A1D37]">
+                <p className="text-xs text-muted-foreground">Surat Masuk</p>
+                <p className="text-2xl font-bold text-foreground">
                   {incomingLetters.length}
                 </p>
               </div>
             </div>
           </Card>
 
-          <Card className="p-4 border-0 shadow-sm bg-white">
+          <Card className="p-4 border-0 bg-card">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
                 <Send className="w-5 h-5 text-green-600" />
               </div>
               <div>
-                <p className="text-xs text-gray-600">Surat Keluar</p>
-                <p className="text-2xl font-bold text-[#0A1D37]">
+                <p className="text-xs text-muted-foreground">Surat Keluar</p>
+                <p className="text-2xl font-bold text-foreground">
                   {outgoingLetters.length}
                 </p>
               </div>
@@ -179,17 +179,17 @@ export function LetterManagement({ userRole }: LetterManagementProps) {
 
         {/* Templates Section */}
         <div className="mb-6">
-          <h3 className="font-semibold text-[#0A1D37] mb-3">Template Surat</h3>
-          <Card className="p-4 border-0 shadow-sm bg-white">
+          <h3 className="font-semibold text-foreground mb-3">Template Surat</h3>
+          <Card className="p-4 border-0 bg-card">
             <div className="flex items-start gap-3 mb-4">
               <div className="w-10 h-10 rounded-lg bg-[#FBC02D] flex items-center justify-center flex-shrink-0">
-                <FileText className="w-5 h-5 text-[#0A1D37]" />
+                <FileText className="w-5 h-5 text-foreground" />
               </div>
-              <div className="flex-1">
-                <h4 className="font-semibold text-[#0A1D37] mb-1">
+              <div className="flex-1 bg-background">
+                <h4 className="font-semibold text-foreground mb-1">
                   {templates.length} Template Tersedia
                 </h4>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-muted-foreground">
                   Gunakan template untuk mempercepat pembuatan surat resmi
                 </p>
               </div>
@@ -198,13 +198,13 @@ export function LetterManagement({ userRole }: LetterManagementProps) {
               {templates.slice(0, 3).map((template) => (
                 <div
                   key={template.id}
-                  className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
+                  className="flex items-center justify-between p-3 bg-muted rounded-lg hover:bg-muted transition-colors cursor-pointer"
                 >
-                  <div className="flex-1">
-                    <p className="text-sm font-medium text-[#0A1D37]">
+                  <div className="flex-1 bg-background">
+                    <p className="text-sm font-medium text-foreground">
                       {template.name}
                     </p>
-                    <p className="text-xs text-gray-600 mt-0.5">
+                    <p className="text-xs text-muted-foreground mt-0.5">
                       {template.description}
                     </p>
                   </div>
@@ -230,7 +230,7 @@ export function LetterManagement({ userRole }: LetterManagementProps) {
 
           <TabsContent value="all" className="space-y-3 mt-4">
             {letters.map((letter) => (
-              <Card key={letter.id} className="p-4 border-0 shadow-sm bg-white">
+              <Card key={letter.id} className="p-4 border-0 bg-card">
                 <div className="flex gap-3">
                   <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
                     letter.type === 'incoming' ? 'bg-blue-100' : 'bg-green-100'
@@ -241,13 +241,13 @@ export function LetterManagement({ userRole }: LetterManagementProps) {
                       <Send className="w-5 h-5 text-green-600" />
                     )}
                   </div>
-                  <div className="flex-1 min-w-0">
+                  <div className="flex-1 bg-background min-w-0">
                     <div className="flex items-start justify-between gap-2 mb-1">
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-[#0A1D37] text-sm">
+                      <div className="flex-1 bg-background min-w-0">
+                        <h4 className="font-semibold text-foreground text-sm">
                           {letter.subject}
                         </h4>
-                        <p className="text-xs text-gray-600 mt-1">
+                        <p className="text-xs text-muted-foreground mt-1">
                           No: {letter.number}
                         </p>
                       </div>
@@ -261,7 +261,7 @@ export function LetterManagement({ userRole }: LetterManagementProps) {
                     </div>
 
                     <div className="flex items-center justify-between mt-3">
-                      <div className="text-xs text-gray-600">
+                      <div className="text-xs text-muted-foreground">
                         {letter.type === 'incoming' ? (
                           <p>📩 Dari: <span className="font-medium">{letter.from}</span></p>
                         ) : (
@@ -281,20 +281,20 @@ export function LetterManagement({ userRole }: LetterManagementProps) {
 
           <TabsContent value="incoming" className="space-y-3 mt-4">
             {incomingLetters.map((letter) => (
-              <Card key={letter.id} className="p-4 border-0 shadow-sm bg-white">
+              <Card key={letter.id} className="p-4 border-0 bg-card">
                 <div className="flex gap-3">
                   <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
                     <Inbox className="w-5 h-5 text-blue-600" />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold text-[#0A1D37] text-sm mb-1">
+                  <div className="flex-1 bg-background min-w-0">
+                    <h4 className="font-semibold text-foreground text-sm mb-1">
                       {letter.subject}
                     </h4>
-                    <p className="text-xs text-gray-600 mb-2">
+                    <p className="text-xs text-muted-foreground mb-2">
                       No: {letter.number} • Dari: {letter.from}
                     </p>
                     <div className="flex items-center justify-between">
-                      <p className="text-xs text-gray-500">{letter.date}</p>
+                      <p className="text-xs text-muted-foreground">{letter.date}</p>
                       <Button variant="outline" size="sm" className="text-[#1565C0] border-[#1565C0]">
                         Lihat
                       </Button>
@@ -304,22 +304,22 @@ export function LetterManagement({ userRole }: LetterManagementProps) {
               </Card>
             ))}
             {incomingLetters.length === 0 && (
-              <Card className="p-8 text-center bg-white">
-                <p className="text-gray-500">Tidak ada surat masuk</p>
+              <Card className="p-8 text-center bg-card">
+                <p className="text-muted-foreground">Tidak ada surat masuk</p>
               </Card>
             )}
           </TabsContent>
 
           <TabsContent value="outgoing" className="space-y-3 mt-4">
             {outgoingLetters.map((letter) => (
-              <Card key={letter.id} className="p-4 border-0 shadow-sm bg-white">
+              <Card key={letter.id} className="p-4 border-0 bg-card">
                 <div className="flex gap-3">
                   <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center flex-shrink-0">
                     <Send className="w-5 h-5 text-green-600" />
                   </div>
-                  <div className="flex-1 min-w-0">
+                  <div className="flex-1 bg-background min-w-0">
                     <div className="flex items-start justify-between gap-2 mb-1">
-                      <h4 className="font-semibold text-[#0A1D37] text-sm">
+                      <h4 className="font-semibold text-foreground text-sm">
                         {letter.subject}
                       </h4>
                       <Badge className={getStatusColor(letter.status)}>
@@ -327,11 +327,11 @@ export function LetterManagement({ userRole }: LetterManagementProps) {
                          letter.status === 'approved' ? 'Approved' : 'Pending'}
                       </Badge>
                     </div>
-                    <p className="text-xs text-gray-600 mb-2">
+                    <p className="text-xs text-muted-foreground mb-2">
                       No: {letter.number} • Kepada: {letter.to}
                     </p>
                     <div className="flex items-center justify-between">
-                      <p className="text-xs text-gray-500">{letter.date}</p>
+                      <p className="text-xs text-muted-foreground">{letter.date}</p>
                       {canManage && letter.status === 'pending' && (
                         <Button size="sm" className="bg-green-600 hover:bg-green-700 h-7">
                           <CheckCircle className="w-3 h-3 mr-1" />
@@ -344,8 +344,8 @@ export function LetterManagement({ userRole }: LetterManagementProps) {
               </Card>
             ))}
             {outgoingLetters.length === 0 && (
-              <Card className="p-8 text-center bg-white">
-                <p className="text-gray-500">Tidak ada surat keluar</p>
+              <Card className="p-8 text-center bg-card">
+                <p className="text-muted-foreground">Tidak ada surat keluar</p>
               </Card>
             )}
           </TabsContent>
@@ -357,11 +357,11 @@ export function LetterManagement({ userRole }: LetterManagementProps) {
             <div className="w-10 h-10 rounded-lg bg-[#1565C0] flex items-center justify-center flex-shrink-0">
               <CheckCircle className="w-5 h-5 text-white" />
             </div>
-            <div className="flex-1">
-              <h4 className="font-semibold text-[#0A1D37] mb-1">
+            <div className="flex-1 bg-background">
+              <h4 className="font-semibold text-foreground mb-1">
                 Approval Digital
               </h4>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-muted-foreground">
                 Semua surat memerlukan persetujuan digital dari ketua sebelum dikirim. Proses approval dilakukan melalui aplikasi.
               </p>
             </div>

@@ -73,9 +73,9 @@ export function Members({ userRole }: MembersProps) {
 
   if (!canView) {
     return (
-      <div className="pb-20 bg-[#F4F6F8] min-h-screen flex items-center justify-center">
-        <Card className="p-8 text-center bg-white max-w-md mx-4">
-          <p className="text-gray-500">Anda tidak memiliki akses ke halaman ini</p>
+      <div className="pb-24 min-h-screen flex items-center justify-center">
+        <Card className="p-8 text-center bg-card max-w-md mx-4">
+          <p className="text-muted-foreground">Anda tidak memiliki akses ke halaman ini</p>
         </Card>
       </div>
     );
@@ -86,17 +86,17 @@ export function Members({ userRole }: MembersProps) {
     if (division.includes('Acara')) return 'bg-blue-100 text-blue-700 border-blue-200';
     if (division.includes('Humas')) return 'bg-green-100 text-green-700 border-green-200';
     if (division.includes('Multimedia')) return 'bg-orange-100 text-orange-700 border-orange-200';
-    return 'bg-gray-100 text-gray-700 border-gray-200';
+    return 'bg-muted text-gray-700 border-border';
   };
 
   return (
-    <div className="pb-20 bg-[#F4F6F8]">
+    <div className="pb-24 min-h-screen" style={{ background: '#060E1C' }}>
       <div className="px-4 pt-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-xl font-bold text-[#0A1D37]">Data Anggota</h2>
-            <p className="text-sm text-gray-600">
+            <h2 className="text-xl font-bold text-foreground">Data Anggota</h2>
+            <p className="text-sm text-muted-foreground">
               Total {members.filter(m => m.status === 'aktif').length} anggota aktif
             </p>
           </div>
@@ -215,25 +215,25 @@ export function Members({ userRole }: MembersProps) {
 
         {/* Search */}
         <div className="relative mb-6">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
           <Input
             type="text"
             placeholder="Cari anggota (nama, NIM, divisi)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-white"
+            className="pl-10 bg-card"
           />
         </div>
 
         {/* Members List */}
         <div className="space-y-3">
           {filteredMembers.length === 0 ? (
-            <Card className="p-8 text-center bg-white">
-              <p className="text-gray-500">Tidak ada anggota ditemukan</p>
+            <Card className="p-8 text-center bg-card">
+              <p className="text-muted-foreground">Tidak ada anggota ditemukan</p>
             </Card>
           ) : (
             filteredMembers.map((member) => (
-              <Card key={member.id} className="p-4 border-0 shadow-sm bg-white">
+              <Card key={member.id} className="p-4 border-0 bg-card">
                 <div className="flex gap-4">
                   <Avatar className="w-14 h-14 flex-shrink-0 bg-[#1565C0] text-white flex items-center justify-center font-semibold">
                     {member.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
@@ -242,10 +242,10 @@ export function Members({ userRole }: MembersProps) {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-[#0A1D37] truncate">
+                        <h3 className="font-semibold text-foreground truncate">
                           {member.name}
                         </h3>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-muted-foreground">
                           NIM: {member.nim} • Angkatan {member.angkatan}
                         </p>
                       </div>
@@ -266,18 +266,18 @@ export function Members({ userRole }: MembersProps) {
                       >
                         {member.division}
                       </Badge>
-                      <Badge variant="outline" className="bg-gray-100 text-gray-700">
+                      <Badge variant="outline" className="bg-muted text-gray-700">
                         {member.position}
                       </Badge>
                     </div>
 
                     <div className="space-y-1 mb-3">
-                      <div className="flex items-center gap-2 text-xs text-gray-600">
-                        <Mail className="w-3.5 h-3.5 text-gray-400" />
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <Mail className="w-3.5 h-3.5 text-muted-foreground" />
                         <span className="truncate">{member.email}</span>
                       </div>
-                      <div className="flex items-center gap-2 text-xs text-gray-600">
-                        <Phone className="w-3.5 h-3.5 text-gray-400" />
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <Phone className="w-3.5 h-3.5 text-muted-foreground" />
                         <span>{member.phone}</span>
                       </div>
                     </div>

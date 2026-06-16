@@ -96,7 +96,7 @@ export function JobdeskManagement({ userRole, userName, userDivision }: JobdeskP
     if (division.includes('Humas')) return 'bg-green-100 text-green-700';
     if (division.includes('Multimedia')) return 'bg-orange-100 text-orange-700';
     if (division.includes('Keilmuan')) return 'bg-purple-100 text-purple-700';
-    return 'bg-gray-100 text-gray-700';
+    return 'bg-muted text-gray-700';
   };
 
   const formatDate = (dateString: string) => {
@@ -109,14 +109,14 @@ export function JobdeskManagement({ userRole, userName, userDivision }: JobdeskP
   };
 
   const JobdeskCard = ({ jobdesk }: { jobdesk: Jobdesk }) => (
-    <Card className="p-4 border-0 shadow-sm bg-white">
+    <Card className="p-4 border-0 bg-card">
       <div className="flex items-start gap-3">
         {getStatusIcon(jobdesk.status)}
         
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2 mb-2">
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-[#0A1D37] mb-1">
+              <h3 className="font-semibold text-foreground mb-1">
                 {jobdesk.title}
               </h3>
               <Badge className={`${getDivisionColor(jobdesk.division)} text-xs`}>
@@ -131,12 +131,12 @@ export function JobdeskManagement({ userRole, userName, userDivision }: JobdeskP
             </Badge>
           </div>
 
-          <p className="text-sm text-gray-600 mb-3">
+          <p className="text-sm text-muted-foreground mb-3">
             {jobdesk.description}
           </p>
 
           <div className="flex items-center justify-between mb-3">
-            <div className="text-xs text-gray-500">
+            <div className="text-xs text-muted-foreground">
               {jobdesk.dueDate && (
                 <p>Deadline: {formatDate(jobdesk.dueDate)}</p>
               )}
@@ -198,13 +198,13 @@ export function JobdeskManagement({ userRole, userName, userDivision }: JobdeskP
   const divisions = ['Divisi Acara', 'Divisi Humas', 'Divisi Multimedia', 'Divisi Keilmuan'];
 
   return (
-    <div className="pb-20 bg-[#F4F6F8]">
+    <div className="pb-24 min-h-screen" style={{ background: '#060E1C' }}>
       <div className="px-4 pt-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-xl font-bold text-[#0A1D37]">Jobdesk Divisi</h2>
-            <p className="text-sm text-gray-600">
+            <h2 className="text-xl font-bold text-foreground">Jobdesk Divisi</h2>
+            <p className="text-sm text-muted-foreground">
               {userRole === 'admin' || userRole === 'prodi' 
                 ? 'Semua divisi' 
                 : userDivision}
@@ -291,32 +291,32 @@ export function JobdeskManagement({ userRole, userName, userDivision }: JobdeskP
 
         {/* Stats */}
         <div className="grid grid-cols-3 gap-3 mb-6">
-          <Card className="p-3 border-0 shadow-sm bg-white text-center">
+          <Card className="p-3 border-0 shadow-sm bg-card text-center">
             <div className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center mx-auto mb-2">
               <XCircle className="w-4 h-4 text-red-600" />
             </div>
-            <p className="text-xl font-bold text-[#0A1D37]">
+            <p className="text-xl font-bold text-foreground">
               {getJobdesksByStatus('belum_dikerjakan').length}
             </p>
-            <p className="text-xs text-gray-600">Belum</p>
+            <p className="text-xs text-muted-foreground">Belum</p>
           </Card>
-          <Card className="p-3 border-0 shadow-sm bg-white text-center">
+          <Card className="p-3 border-0 shadow-sm bg-card text-center">
             <div className="w-8 h-8 rounded-lg bg-yellow-100 flex items-center justify-center mx-auto mb-2">
               <Clock className="w-4 h-4 text-yellow-600" />
             </div>
-            <p className="text-xl font-bold text-[#0A1D37]">
+            <p className="text-xl font-bold text-foreground">
               {getJobdesksByStatus('dalam_proses').length}
             </p>
-            <p className="text-xs text-gray-600">Proses</p>
+            <p className="text-xs text-muted-foreground">Proses</p>
           </Card>
-          <Card className="p-3 border-0 shadow-sm bg-white text-center">
+          <Card className="p-3 border-0 shadow-sm bg-card text-center">
             <div className="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center mx-auto mb-2">
               <CheckCircle className="w-4 h-4 text-green-600" />
             </div>
-            <p className="text-xl font-bold text-[#0A1D37]">
+            <p className="text-xl font-bold text-foreground">
               {getJobdesksByStatus('selesai').length}
             </p>
-            <p className="text-xs text-gray-600">Selesai</p>
+            <p className="text-xs text-muted-foreground">Selesai</p>
           </Card>
         </div>
 
@@ -334,8 +334,8 @@ export function JobdeskManagement({ userRole, userName, userDivision }: JobdeskP
               <JobdeskCard key={jobdesk.id} jobdesk={jobdesk} />
             ))}
             {filteredJobdesks.length === 0 && (
-              <Card className="p-8 text-center bg-white">
-                <p className="text-gray-500">Belum ada jobdesk</p>
+              <Card className="p-8 text-center bg-card">
+                <p className="text-muted-foreground">Belum ada jobdesk</p>
               </Card>
             )}
           </TabsContent>
@@ -345,8 +345,8 @@ export function JobdeskManagement({ userRole, userName, userDivision }: JobdeskP
               <JobdeskCard key={jobdesk.id} jobdesk={jobdesk} />
             ))}
             {getJobdesksByStatus('belum_dikerjakan').length === 0 && (
-              <Card className="p-8 text-center bg-white">
-                <p className="text-gray-500">Tidak ada jobdesk yang belum dikerjakan</p>
+              <Card className="p-8 text-center bg-card">
+                <p className="text-muted-foreground">Tidak ada jobdesk yang belum dikerjakan</p>
               </Card>
             )}
           </TabsContent>
@@ -356,8 +356,8 @@ export function JobdeskManagement({ userRole, userName, userDivision }: JobdeskP
               <JobdeskCard key={jobdesk.id} jobdesk={jobdesk} />
             ))}
             {getJobdesksByStatus('dalam_proses').length === 0 && (
-              <Card className="p-8 text-center bg-white">
-                <p className="text-gray-500">Tidak ada jobdesk dalam proses</p>
+              <Card className="p-8 text-center bg-card">
+                <p className="text-muted-foreground">Tidak ada jobdesk dalam proses</p>
               </Card>
             )}
           </TabsContent>
@@ -367,8 +367,8 @@ export function JobdeskManagement({ userRole, userName, userDivision }: JobdeskP
               <JobdeskCard key={jobdesk.id} jobdesk={jobdesk} />
             ))}
             {getJobdesksByStatus('selesai').length === 0 && (
-              <Card className="p-8 text-center bg-white">
-                <p className="text-gray-500">Belum ada jobdesk selesai</p>
+              <Card className="p-8 text-center bg-card">
+                <p className="text-muted-foreground">Belum ada jobdesk selesai</p>
               </Card>
             )}
           </TabsContent>

@@ -117,23 +117,23 @@ export function OrganizationStructure() {
   };
 
   return (
-    <div className="pb-20 bg-[#F4F6F8]">
+    <div className="pb-24">
       <div className="px-4 pt-4">
         {/* Header */}
         <div className="mb-6">
-          <h2 className="text-xl font-bold text-[#0A1D37]">Struktur Organisasi</h2>
-          <p className="text-sm text-gray-600">Pengurus HIMATIF UIR 2025/2026</p>
+          <h2 className="text-xl font-bold text-foreground">Struktur Organisasi</h2>
+          <p className="text-sm text-muted-foreground">Pengurus HIMATIF UIR 2025/2026</p>
         </div>
 
         {/* Search */}
         <div className="relative mb-6">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
           <Input
             type="text"
             placeholder="Cari pengurus..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-white"
+            className="pl-10 bg-card"
           />
         </div>
 
@@ -142,7 +142,7 @@ export function OrganizationStructure() {
           <div key={levelIndex} className="mb-6">
             <div className="flex items-center gap-3 mb-4">
               <div className="h-0.5 flex-1 bg-gradient-to-r from-[#1565C0] to-transparent"></div>
-              <h3 className="font-semibold text-[#0A1D37] px-3 py-1 bg-[#1565C0] text-white rounded-full text-sm">
+              <h3 className="font-semibold text-foreground px-3 py-1 bg-[#1565C0] text-white rounded-full text-sm">
                 {level.level}
               </h3>
               <div className="h-0.5 flex-1 bg-gradient-to-l from-[#1565C0] to-transparent"></div>
@@ -150,17 +150,17 @@ export function OrganizationStructure() {
 
             <div className="space-y-3">
               {level.members.map((member) => (
-                <Card key={member.id} className="p-4 border-0 shadow-sm bg-white hover:shadow-md transition-shadow">
+                <Card key={member.id} className="p-4 border-0 shadow-sm bg-card hover:shadow-md transition-shadow">
                   <div className="flex items-center gap-4">
                     <Avatar className="w-16 h-16 flex-shrink-0 bg-gradient-to-br from-[#1565C0] to-[#FBC02D] text-white flex items-center justify-center font-bold text-lg">
                       {member.photo}
                     </Avatar>
 
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-semibold text-[#0A1D37] mb-1">
+                    <div className="flex-1 bg-background min-w-0">
+                      <h4 className="font-semibold text-foreground mb-1">
                         {member.name}
                       </h4>
-                      <p className="text-sm text-gray-600 mb-1">
+                      <p className="text-sm text-muted-foreground mb-1">
                         {member.position}
                       </p>
                       {member.division && (
@@ -174,7 +174,7 @@ export function OrganizationStructure() {
                           onClick={() => handleContact('email', member.email)}
                           variant="outline"
                           size="sm"
-                          className="flex-1 text-[#1565C0] border-[#1565C0]"
+                          className="flex-1 bg-background text-[#1565C0] border-[#1565C0]"
                         >
                           <Mail className="w-4 h-4 mr-1" />
                           Email
@@ -183,7 +183,7 @@ export function OrganizationStructure() {
                           onClick={() => handleContact('phone', member.phone)}
                           variant="outline"
                           size="sm"
-                          className="flex-1 text-[#1565C0] border-[#1565C0]"
+                          className="flex-1 bg-background text-[#1565C0] border-[#1565C0]"
                         >
                           <Phone className="w-4 h-4 mr-1" />
                           Telp
@@ -207,8 +207,8 @@ export function OrganizationStructure() {
 
         {/* Empty State */}
         {filteredStructure.length === 0 && (
-          <Card className="p-12 text-center bg-white">
-            <p className="text-gray-500">Tidak ada hasil pencarian</p>
+          <Card className="p-12 text-center bg-card">
+            <p className="text-muted-foreground">Tidak ada hasil pencarian</p>
           </Card>
         )}
       </div>
